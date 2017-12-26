@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 3.13.1
-Release  : 1
+Release  : 3
 URL      : https://download.gluster.org/pub/gluster/glusterfs/LATEST/glusterfs-3.13.1.tar.gz
 Source0  : https://download.gluster.org/pub/gluster/glusterfs/LATEST/glusterfs-3.13.1.tar.gz
 Summary  : Distributed File System
@@ -130,8 +130,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1514253320
-%configure --disable-static
+export SOURCE_DATE_EPOCH=1514299387
+%configure --disable-static --localstatedir=/usr/share/glusterfs
 make  %{?_smp_mflags}
 
 %check
@@ -142,7 +142,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1514253320
+export SOURCE_DATE_EPOCH=1514299387
 rm -rf %{buildroot}
 %make_install
 
@@ -156,22 +156,6 @@ rm -rf %{buildroot}
 /usr/lib64/glusterfs/3.13.1/xlator/features/glupy/helloworld.pyc
 /usr/lib64/glusterfs/3.13.1/xlator/features/glupy/negative.py
 /usr/lib64/glusterfs/3.13.1/xlator/features/glupy/negative.pyc
-/var/lib/glusterd/groups/gluster-block
-/var/lib/glusterd/groups/metadata-cache
-/var/lib/glusterd/groups/nl-cache
-/var/lib/glusterd/groups/virt
-/var/lib/glusterd/hooks/1/add-brick/post/disabled-quota-root-xattr-heal.sh
-/var/lib/glusterd/hooks/1/add-brick/pre/S28Quota-enable-root-xattr-heal.sh
-/var/lib/glusterd/hooks/1/create/post/S10selinux-label-brick.sh
-/var/lib/glusterd/hooks/1/delete/post/S57glusterfind-delete-post
-/var/lib/glusterd/hooks/1/delete/pre/S10selinux-del-fcontext.sh
-/var/lib/glusterd/hooks/1/gsync-create/post/S56glusterd-geo-rep-create-post.sh
-/var/lib/glusterd/hooks/1/set/post/S30samba-set.sh
-/var/lib/glusterd/hooks/1/set/post/S32gluster_enable_shared_storage.sh
-/var/lib/glusterd/hooks/1/start/post/S29CTDBsetup.sh
-/var/lib/glusterd/hooks/1/start/post/S30samba-start.sh
-/var/lib/glusterd/hooks/1/stop/pre/S29CTDB-teardown.sh
-/var/lib/glusterd/hooks/1/stop/pre/S30samba-stop.sh
 
 %files bin
 %defattr(-,root,root,-)
@@ -286,6 +270,22 @@ rm -rf %{buildroot}
 
 %files data
 %defattr(-,root,root,-)
+/usr/share/glusterfs/lib/glusterd/groups/gluster-block
+/usr/share/glusterfs/lib/glusterd/groups/metadata-cache
+/usr/share/glusterfs/lib/glusterd/groups/nl-cache
+/usr/share/glusterfs/lib/glusterd/groups/virt
+/usr/share/glusterfs/lib/glusterd/hooks/1/add-brick/post/disabled-quota-root-xattr-heal.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/add-brick/pre/S28Quota-enable-root-xattr-heal.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/create/post/S10selinux-label-brick.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/delete/post/S57glusterfind-delete-post
+/usr/share/glusterfs/lib/glusterd/hooks/1/delete/pre/S10selinux-del-fcontext.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/gsync-create/post/S56glusterd-geo-rep-create-post.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/set/post/S30samba-set.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/set/post/S32gluster_enable_shared_storage.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/start/post/S29CTDBsetup.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/start/post/S30samba-start.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/stop/pre/S29CTDB-teardown.sh
+/usr/share/glusterfs/lib/glusterd/hooks/1/stop/pre/S30samba-stop.sh
 /usr/share/glusterfs/scripts/eventsdash.py
 /usr/share/glusterfs/scripts/eventsdash.pyc
 /usr/share/glusterfs/scripts/generate-gfid-file.sh
