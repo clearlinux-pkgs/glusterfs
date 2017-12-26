@@ -1,0 +1,12 @@
+# This file contains additional build requirements that did not get
+# picked up automatically. One name per line, no whitespace.
+openssl-dev
+flex
+bison
+python3-dev
+readline-dev
+libaio-dev
+fuse-dev
+acl-dev
+python-dev
+xz-dev

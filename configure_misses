@@ -1,0 +1,19 @@
+Configure miss: rl_do_undo in -lreadline
+Configure miss: gettext in -lintl
+Configure miss: sys/extattr.h usability
+Configure miss: sys/extattr.h presence
+Configure miss: sys/extattr.h
+Configure miss: lvm_init,lvm_lv_from_name in -llvm2app
+Configure miss: TLS_method in -lssl
+Configure miss: ibv_get_device_list in -libverbs
+Configure miss: rdma_create_id in -lrdmacm
+Configure miss: struct stat.st_atimespec.tv_nsec
+Configure miss: __atomic_load
+Configure miss: __sync_fetch_and_add
+Configure miss: /etc/debian_version
+Configure miss: /etc/SuSE-release
+Configure miss: /etc/redhat-release
+Configure miss: if compiling with clang
+Configure miss: readline in -lreadline -lcurses
+Configure miss: readline in -lreadline -ltermcap
+Configure miss: readline in -lreadline -lncurses
