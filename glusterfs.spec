@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 3.13.1
-Release  : 3
+Release  : 4
 URL      : https://download.gluster.org/pub/gluster/glusterfs/LATEST/glusterfs-3.13.1.tar.gz
 Source0  : https://download.gluster.org/pub/gluster/glusterfs/LATEST/glusterfs-3.13.1.tar.gz
 Summary  : Distributed File System
