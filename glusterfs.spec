@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 3.13.1
-Release  : 4
+Release  : 5
 URL      : https://download.gluster.org/pub/gluster/glusterfs/LATEST/glusterfs-3.13.1.tar.gz
 Source0  : https://download.gluster.org/pub/gluster/glusterfs/LATEST/glusterfs-3.13.1.tar.gz
 Summary  : Distributed File System
@@ -115,7 +115,6 @@ lib components for the glusterfs package.
 %package python
 Summary: python components for the glusterfs package.
 Group: Default
-Requires: glusterfs-legacypython
 
 %description python
 python components for the glusterfs package.
@@ -130,8 +129,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1514299387
-%configure --disable-static --localstatedir=/usr/share/glusterfs
+export SOURCE_DATE_EPOCH=1517765120
+%configure --disable-static --localstatedir=/usr/share/glusterfs PYTHON=/usr/bin/python2
 make  %{?_smp_mflags}
 
 %check
@@ -142,7 +141,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1514299387
+export SOURCE_DATE_EPOCH=1517765120
 rm -rf %{buildroot}
 %make_install
 
@@ -150,6 +149,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 /usr/lib/ocf/resource.d/glusterfs/glusterd
 /usr/lib/ocf/resource.d/glusterfs/volume
+/usr/lib64/glusterfs/3.13.1/xlator/features/glupy/__pycache__/debug-trace.cpython-36.pyc
 /usr/lib64/glusterfs/3.13.1/xlator/features/glupy/debug-trace.py
 /usr/lib64/glusterfs/3.13.1/xlator/features/glupy/debug-trace.pyc
 /usr/lib64/glusterfs/3.13.1/xlator/features/glupy/helloworld.py
@@ -177,8 +177,18 @@ rm -rf %{buildroot}
 /usr/bin/glusterfsd
 /usr/bin/mount.glusterfs
 /usr/bin/snap_scheduler.py
+/usr/libexec/glusterfs/__pycache__/peer_eventsapi.cpython-36.pyc
+/usr/libexec/glusterfs/__pycache__/peer_georep-sshkey.cpython-36.pyc
+/usr/libexec/glusterfs/__pycache__/peer_mountbroker.cpython-36.pyc
 /usr/libexec/glusterfs/events/__init__.py
 /usr/libexec/glusterfs/events/__init__.pyc
+/usr/libexec/glusterfs/events/__pycache__/__init__.cpython-36.pyc
+/usr/libexec/glusterfs/events/__pycache__/eventsapiconf.cpython-36.pyc
+/usr/libexec/glusterfs/events/__pycache__/eventtypes.cpython-36.pyc
+/usr/libexec/glusterfs/events/__pycache__/gf_event.cpython-36.pyc
+/usr/libexec/glusterfs/events/__pycache__/glustereventsd.cpython-36.pyc
+/usr/libexec/glusterfs/events/__pycache__/handlers.cpython-36.pyc
+/usr/libexec/glusterfs/events/__pycache__/utils.cpython-36.pyc
 /usr/libexec/glusterfs/events/eventsapiconf.py
 /usr/libexec/glusterfs/events/eventsapiconf.pyc
 /usr/libexec/glusterfs/events/eventtypes.py
@@ -186,24 +196,30 @@ rm -rf %{buildroot}
 /usr/libexec/glusterfs/events/gf_event.py
 /usr/libexec/glusterfs/events/gf_event.pyc
 /usr/libexec/glusterfs/events/glustereventsd.py
-/usr/libexec/glusterfs/events/glustereventsd.pyc
 /usr/libexec/glusterfs/events/handlers.py
 /usr/libexec/glusterfs/events/handlers.pyc
 /usr/libexec/glusterfs/events/utils.py
 /usr/libexec/glusterfs/events/utils.pyc
+/usr/libexec/glusterfs/gfind_missing_files/__pycache__/gfid_to_path.cpython-36.pyc
 /usr/libexec/glusterfs/gfind_missing_files/gcrawler
 /usr/libexec/glusterfs/gfind_missing_files/gfid_to_path.py
-/usr/libexec/glusterfs/gfind_missing_files/gfid_to_path.pyc
 /usr/libexec/glusterfs/gfind_missing_files/gfid_to_path.sh
 /usr/libexec/glusterfs/gfind_missing_files/gfind_missing_files.sh
 /usr/libexec/glusterfs/glusterfind/S57glusterfind-delete-post.py
-/usr/libexec/glusterfs/glusterfind/S57glusterfind-delete-post.pyc
 /usr/libexec/glusterfs/glusterfind/__init__.py
 /usr/libexec/glusterfs/glusterfind/__init__.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/S57glusterfind-delete-post.cpython-36.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/__init__.cpython-36.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/brickfind.cpython-36.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/changelog.cpython-36.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/changelogdata.cpython-36.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/conf.cpython-36.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/libgfchangelog.cpython-36.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/main.cpython-36.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/nodeagent.cpython-36.pyc
+/usr/libexec/glusterfs/glusterfind/__pycache__/utils.cpython-36.pyc
 /usr/libexec/glusterfs/glusterfind/brickfind.py
-/usr/libexec/glusterfs/glusterfind/brickfind.pyc
 /usr/libexec/glusterfs/glusterfind/changelog.py
-/usr/libexec/glusterfs/glusterfind/changelog.pyc
 /usr/libexec/glusterfs/glusterfind/changelogdata.py
 /usr/libexec/glusterfs/glusterfind/changelogdata.pyc
 /usr/libexec/glusterfs/glusterfind/conf.py
@@ -213,7 +229,6 @@ rm -rf %{buildroot}
 /usr/libexec/glusterfs/glusterfind/main.py
 /usr/libexec/glusterfs/glusterfind/main.pyc
 /usr/libexec/glusterfs/glusterfind/nodeagent.py
-/usr/libexec/glusterfs/glusterfind/nodeagent.pyc
 /usr/libexec/glusterfs/glusterfind/tool.conf
 /usr/libexec/glusterfs/glusterfind/utils.py
 /usr/libexec/glusterfs/glusterfind/utils.pyc
@@ -222,16 +237,25 @@ rm -rf %{buildroot}
 /usr/libexec/glusterfs/mount-shared-storage.sh
 /usr/libexec/glusterfs/peer_add_secret_pub
 /usr/libexec/glusterfs/peer_eventsapi.py
-/usr/libexec/glusterfs/peer_eventsapi.pyc
 /usr/libexec/glusterfs/peer_georep-sshkey.py
-/usr/libexec/glusterfs/peer_georep-sshkey.pyc
 /usr/libexec/glusterfs/peer_gsec_create
 /usr/libexec/glusterfs/peer_mountbroker
 /usr/libexec/glusterfs/peer_mountbroker.py
-/usr/libexec/glusterfs/peer_mountbroker.pyc
 /usr/libexec/glusterfs/python/syncdaemon/README.md
 /usr/libexec/glusterfs/python/syncdaemon/__init__.py
 /usr/libexec/glusterfs/python/syncdaemon/__init__.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/__init__.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/changelogagent.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/conf.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/configinterface.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/gconf.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/gsyncdstatus.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/libcxattr.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/libgfchangelog.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/monitor.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/repce.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/resource.cpython-36.pyc
+/usr/libexec/glusterfs/python/syncdaemon/__pycache__/syncdutils.cpython-36.pyc
 /usr/libexec/glusterfs/python/syncdaemon/changelogagent.py
 /usr/libexec/glusterfs/python/syncdaemon/changelogagent.pyc
 /usr/libexec/glusterfs/python/syncdaemon/conf.py
@@ -286,8 +310,9 @@ rm -rf %{buildroot}
 /usr/share/glusterfs/lib/glusterd/hooks/1/start/post/S30samba-start.sh
 /usr/share/glusterfs/lib/glusterd/hooks/1/stop/pre/S29CTDB-teardown.sh
 /usr/share/glusterfs/lib/glusterd/hooks/1/stop/pre/S30samba-stop.sh
+/usr/share/glusterfs/scripts/__pycache__/eventsdash.cpython-36.pyc
+/usr/share/glusterfs/scripts/__pycache__/schedule_georep.cpython-36.pyc
 /usr/share/glusterfs/scripts/eventsdash.py
-/usr/share/glusterfs/scripts/eventsdash.pyc
 /usr/share/glusterfs/scripts/generate-gfid-file.sh
 /usr/share/glusterfs/scripts/get-gfid.sh
 /usr/share/glusterfs/scripts/gsync-sync-gfid
@@ -295,7 +320,6 @@ rm -rf %{buildroot}
 /usr/share/glusterfs/scripts/post-upgrade-script-for-quota.sh
 /usr/share/glusterfs/scripts/pre-upgrade-script-for-quota.sh
 /usr/share/glusterfs/scripts/schedule_georep.py
-/usr/share/glusterfs/scripts/schedule_georep.pyc
 /usr/share/glusterfs/scripts/slave-upgrade.sh
 /usr/share/glusterfs/scripts/stop-all-gluster-processes.sh
 

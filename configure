@@ -1,1 +1,1 @@
---localstatedir=/usr/share/glusterfs
+--localstatedir=/usr/share/glusterfs PYTHON=/usr/bin/python2
