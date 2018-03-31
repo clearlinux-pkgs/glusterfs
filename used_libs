@@ -11,6 +11,7 @@ libpython2.7.so.1.0
 librt.so.1
 libsqlite3.so.0
 libssl.so.1.0.0
+libtirpc.so.3
 liburcu-bp.so.6
 liburcu-cds.so.6
 libutil.so.1
