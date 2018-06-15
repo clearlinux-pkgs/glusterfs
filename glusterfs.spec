@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 4.0.1
-Release  : 9
+Release  : 10
 URL      : https://download.gluster.org/pub/gluster/glusterfs/LATEST/glusterfs-4.0.1.tar.gz
 Source0  : https://download.gluster.org/pub/gluster/glusterfs/LATEST/glusterfs-4.0.1.tar.gz
 Summary  : Distributed File System
