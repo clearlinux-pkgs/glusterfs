@@ -30,7 +30,7 @@ BuildRequires : pkgconfig(liburcu-cds)
 BuildRequires : pkgconfig(sqlite3)
 BuildRequires : pkgconfig(uuid)
 BuildRequires : pkgconfig(zlib)
-BuildRequires : python-dev
+
 BuildRequires : python3-dev
 BuildRequires : readline-dev
 BuildRequires : xz-dev
