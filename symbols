@@ -159,6 +159,7 @@ libgfapi.so.0:glfs_upcall_inode_get_oldpstat
 libgfapi.so.0:glfs_upcall_inode_get_pobject
 libgfapi.so.0:glfs_upcall_inode_get_pstat
 libgfapi.so.0:glfs_upcall_inode_get_stat
+libgfapi.so.0:glfs_upcall_lease_get_lease_type
 libgfapi.so.0:glfs_upcall_register
 libgfapi.so.0:glfs_upcall_unregister
 libgfapi.so.0:glfs_utimens
@@ -578,6 +579,7 @@ libgfxdr.so.0:xdr_gfx_notify_rsp
 libgfxdr.so.0:xdr_gfx_open_req
 libgfxdr.so.0:xdr_gfx_open_rsp
 libgfxdr.so.0:xdr_gfx_opendir_req
+libgfxdr.so.0:xdr_gfx_put_req
 libgfxdr.so.0:xdr_gfx_rchecksum_req
 libgfxdr.so.0:xdr_gfx_rchecksum_rsp
 libgfxdr.so.0:xdr_gfx_read_req
@@ -952,6 +954,7 @@ libglusterfs.so.0:default_getactivelk
 libglusterfs.so.0:default_getactivelk_failure_cbk
 libglusterfs.so.0:default_getactivelk_resume
 libglusterfs.so.0:default_getspec
+libglusterfs.so.0:default_getspec_cbk
 libglusterfs.so.0:default_getxattr
 libglusterfs.so.0:default_getxattr_cbk
 libglusterfs.so.0:default_getxattr_failure_cbk
@@ -995,6 +998,10 @@ libglusterfs.so.0:default_opendir
 libglusterfs.so.0:default_opendir_cbk
 libglusterfs.so.0:default_opendir_failure_cbk
 libglusterfs.so.0:default_opendir_resume
+libglusterfs.so.0:default_put
+libglusterfs.so.0:default_put_cbk
+libglusterfs.so.0:default_put_failure_cbk
+libglusterfs.so.0:default_put_resume
 libglusterfs.so.0:default_rchecksum
 libglusterfs.so.0:default_rchecksum_cbk
 libglusterfs.so.0:default_rchecksum_failure_cbk
@@ -1080,6 +1087,8 @@ libglusterfs.so.0:dht_is_linkfile
 libglusterfs.so.0:dict_add
 libglusterfs.so.0:dict_add_dynstr_with_alloc
 libglusterfs.so.0:dict_allocate_and_serialize
+libglusterfs.so.0:dict_check_flag
+libglusterfs.so.0:dict_clear_flag
 libglusterfs.so.0:dict_copy
 libglusterfs.so.0:dict_copy_with_ref
 libglusterfs.so.0:dict_del
@@ -1125,6 +1134,7 @@ libglusterfs.so.0:dict_set_double
 libglusterfs.so.0:dict_set_dynptr
 libglusterfs.so.0:dict_set_dynstr
 libglusterfs.so.0:dict_set_dynstr_with_alloc
+libglusterfs.so.0:dict_set_flag
 libglusterfs.so.0:dict_set_gfuuid
 libglusterfs.so.0:dict_set_iatt
 libglusterfs.so.0:dict_set_int16
@@ -1281,6 +1291,7 @@ libglusterfs.so.0:gf_dm_hashfn
 libglusterfs.so.0:gf_dnscache_init
 libglusterfs.so.0:gf_errno_to_error
 libglusterfs.so.0:gf_error_to_errno
+libglusterfs.so.0:gf_existing_leaseid
 libglusterfs.so.0:gf_fd_fdptr_get
 libglusterfs.so.0:gf_fd_fdtable_alloc
 libglusterfs.so.0:gf_fd_fdtable_copy_all_fds
@@ -1306,6 +1317,7 @@ libglusterfs.so.0:gf_is_str_int
 libglusterfs.so.0:gf_is_valid_xattr_namespace
 libglusterfs.so.0:gf_is_zero_filled_stat
 libglusterfs.so.0:gf_itransform
+libglusterfs.so.0:gf_leaseid_get
 libglusterfs.so.0:gf_link_inodes_from_dirent
 libglusterfs.so.0:gf_log_disable_suppression_before_exit
 libglusterfs.so.0:gf_log_dump_graph
@@ -1343,6 +1355,7 @@ libglusterfs.so.0:gf_proc_dump_xlator_history
 libglusterfs.so.0:gf_proc_dump_xlator_meminfo
 libglusterfs.so.0:gf_proc_dump_xlator_private
 libglusterfs.so.0:gf_proc_dump_xlator_profile
+libglusterfs.so.0:gf_process_getspec_servers_list
 libglusterfs.so.0:gf_process_reserved_ports
 libglusterfs.so.0:gf_replace_new_iatt_in_dict
 libglusterfs.so.0:gf_replace_old_iatt_in_dict
@@ -1356,6 +1369,7 @@ libglusterfs.so.0:gf_rsync_weak_checksum
 libglusterfs.so.0:gf_set_log_file_path
 libglusterfs.so.0:gf_set_log_ident
 libglusterfs.so.0:gf_set_timestamp
+libglusterfs.so.0:gf_set_volfile_server_common
 libglusterfs.so.0:gf_sock_union_equal_addr
 libglusterfs.so.0:gf_store_handle_create_on_absence
 libglusterfs.so.0:gf_store_handle_destroy
@@ -1436,7 +1450,9 @@ libglusterfs.so.0:glusterfs_graph_set_first
 libglusterfs.so.0:glusterfs_is_local_pathinfo
 libglusterfs.so.0:glusterfs_leaf_position
 libglusterfs.so.0:glusterfs_leaseid_buf_get
+libglusterfs.so.0:glusterfs_leaseid_exist
 libglusterfs.so.0:glusterfs_reachable_leaves
+libglusterfs.so.0:glusterfs_read_secure_access_file
 libglusterfs.so.0:glusterfs_this_set
 libglusterfs.so.0:glusterfs_volfile_reconfigure
 libglusterfs.so.0:glusterfs_xlator_link
@@ -1602,6 +1618,7 @@ libglusterfs.so.0:syncop_create
 libglusterfs.so.0:syncop_dir_scan
 libglusterfs.so.0:syncop_dirfd
 libglusterfs.so.0:syncop_discard
+libglusterfs.so.0:syncop_entrylk
 libglusterfs.so.0:syncop_fallocate
 libglusterfs.so.0:syncop_fgetxattr
 libglusterfs.so.0:syncop_flush
@@ -1618,6 +1635,7 @@ libglusterfs.so.0:syncop_fxattrop
 libglusterfs.so.0:syncop_getactivelk
 libglusterfs.so.0:syncop_getxattr
 libglusterfs.so.0:syncop_gfid_to_path
+libglusterfs.so.0:syncop_gfid_to_path_hard
 libglusterfs.so.0:syncop_inode_find
 libglusterfs.so.0:syncop_inodelk
 libglusterfs.so.0:syncop_ipc
