@@ -10,3 +10,4 @@ fuse-dev
 acl-dev
 python-dev
 xz-dev
+libxml2-dev

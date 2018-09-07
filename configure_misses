@@ -5,8 +5,6 @@ Configure miss: sys/extattr.h presence
 Configure miss: sys/extattr.h
 Configure miss: lvm_init,lvm_lv_from_name in -llvm2app
 Configure miss: TLS_method in -lssl
-Configure miss: ibv_get_device_list in -libverbs
-Configure miss: rdma_create_id in -lrdmacm
 Configure miss: struct stat.st_atimespec.tv_nsec
 Configure miss: /etc/debian_version
 Configure miss: /etc/SuSE-release
