@@ -4,19 +4,20 @@
 #
 Name     : glusterfs
 Version  : 4.1.5
-Release  : 14
+Release  : 15
 URL      : https://github.com/gluster/glusterfs/archive/v4.1.5.tar.gz
 Source0  : https://github.com/gluster/glusterfs/archive/v4.1.5.tar.gz
 Summary  : GlusterFS Database Library
 Group    : Development/Tools
 License  : AML Apache-2.0 GPL-2.0 LGPL-2.0 LGPL-3.0
-Requires: glusterfs-bin
-Requires: glusterfs-config
-Requires: glusterfs-lib
-Requires: glusterfs-license
-Requires: glusterfs-data
-Requires: glusterfs-man
-Requires: glusterfs-python
+Requires: glusterfs-bin = %{version}-%{release}
+Requires: glusterfs-data = %{version}-%{release}
+Requires: glusterfs-lib = %{version}-%{release}
+Requires: glusterfs-libexec = %{version}-%{release}
+Requires: glusterfs-license = %{version}-%{release}
+Requires: glusterfs-man = %{version}-%{release}
+Requires: glusterfs-python = %{version}-%{release}
+Requires: glusterfs-services = %{version}-%{release}
 Requires: rpcbind
 BuildRequires : acl-dev
 BuildRequires : bison
@@ -39,6 +40,8 @@ BuildRequires : python3-dev
 BuildRequires : rdma-core-dev
 BuildRequires : readline-dev
 BuildRequires : xz-dev
+Patch1: CVE-2018-14651.patch
+Patch2: CVE-2018-14653.patch
 
 %description
 ld-preload-test
@@ -50,20 +53,13 @@ mechanism in libc for the system on which booster needs to run.
 Summary: bin components for the glusterfs package.
 Group: Binaries
 Requires: glusterfs-data = %{version}-%{release}
-Requires: glusterfs-config = %{version}-%{release}
+Requires: glusterfs-libexec = %{version}-%{release}
 Requires: glusterfs-license = %{version}-%{release}
 Requires: glusterfs-man = %{version}-%{release}
+Requires: glusterfs-services = %{version}-%{release}
 
 %description bin
 bin components for the glusterfs package.
-
-
-%package config
-Summary: config components for the glusterfs package.
-Group: Default
-
-%description config
-config components for the glusterfs package.
 
 
 %package data
@@ -108,10 +104,20 @@ legacypython components for the glusterfs package.
 Summary: lib components for the glusterfs package.
 Group: Libraries
 Requires: glusterfs-data = %{version}-%{release}
+Requires: glusterfs-libexec = %{version}-%{release}
 Requires: glusterfs-license = %{version}-%{release}
 
 %description lib
 lib components for the glusterfs package.
+
+
+%package libexec
+Summary: libexec components for the glusterfs package.
+Group: Default
+Requires: glusterfs-license = %{version}-%{release}
+
+%description libexec
+libexec components for the glusterfs package.
 
 
 %package license
@@ -138,15 +144,29 @@ Group: Default
 python components for the glusterfs package.
 
 
+%package services
+Summary: services components for the glusterfs package.
+Group: Systemd services
+
+%description services
+services components for the glusterfs package.
+
+
 %prep
 %setup -q -n glusterfs-4.1.5
+%patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1537637096
+export SOURCE_DATE_EPOCH=1541095227
+export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 %autogen --disable-static --localstatedir=/usr/share/glusterfs PYTHON=/usr/bin/python2
 make  %{?_smp_mflags}
 
@@ -158,15 +178,15 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1537637096
+export SOURCE_DATE_EPOCH=1541095227
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/glusterfs
-cp COPYING-GPLV2 %{buildroot}/usr/share/doc/glusterfs/COPYING-GPLV2
-cp COPYING-LGPLV3 %{buildroot}/usr/share/doc/glusterfs/COPYING-LGPLV3
-cp contrib/fuse-lib/COPYING.LIB %{buildroot}/usr/share/doc/glusterfs/contrib_fuse-lib_COPYING.LIB
-cp contrib/fuse-util/COPYING %{buildroot}/usr/share/doc/glusterfs/contrib_fuse-util_COPYING
-cp contrib/ipaddr-py/COPYING %{buildroot}/usr/share/doc/glusterfs/contrib_ipaddr-py_COPYING
-cp contrib/macfuse/COPYING.txt %{buildroot}/usr/share/doc/glusterfs/contrib_macfuse_COPYING.txt
+mkdir -p %{buildroot}/usr/share/package-licenses/glusterfs
+cp COPYING-GPLV2 %{buildroot}/usr/share/package-licenses/glusterfs/COPYING-GPLV2
+cp COPYING-LGPLV3 %{buildroot}/usr/share/package-licenses/glusterfs/COPYING-LGPLV3
+cp contrib/fuse-lib/COPYING.LIB %{buildroot}/usr/share/package-licenses/glusterfs/contrib_fuse-lib_COPYING.LIB
+cp contrib/fuse-util/COPYING %{buildroot}/usr/share/package-licenses/glusterfs/contrib_fuse-util_COPYING
+cp contrib/ipaddr-py/COPYING %{buildroot}/usr/share/package-licenses/glusterfs/contrib_ipaddr-py_COPYING
+cp contrib/macfuse/COPYING.txt %{buildroot}/usr/share/package-licenses/glusterfs/contrib_macfuse_COPYING.txt
 %make_install
 
 %files
@@ -200,93 +220,6 @@ cp contrib/macfuse/COPYING.txt %{buildroot}/usr/share/doc/glusterfs/contrib_macf
 /usr/bin/glusterfsd
 /usr/bin/mount.glusterfs
 /usr/bin/snap_scheduler.py
-/usr/libexec/glusterfs/events/__init__.py
-/usr/libexec/glusterfs/events/__init__.pyc
-/usr/libexec/glusterfs/events/eventsapiconf.py
-/usr/libexec/glusterfs/events/eventsapiconf.pyc
-/usr/libexec/glusterfs/events/eventtypes.py
-/usr/libexec/glusterfs/events/eventtypes.pyc
-/usr/libexec/glusterfs/events/gf_event.py
-/usr/libexec/glusterfs/events/gf_event.pyc
-/usr/libexec/glusterfs/events/glustereventsd.py
-/usr/libexec/glusterfs/events/handlers.py
-/usr/libexec/glusterfs/events/handlers.pyc
-/usr/libexec/glusterfs/events/utils.py
-/usr/libexec/glusterfs/events/utils.pyc
-/usr/libexec/glusterfs/gfind_missing_files/gcrawler
-/usr/libexec/glusterfs/gfind_missing_files/gfid_to_path.py
-/usr/libexec/glusterfs/gfind_missing_files/gfid_to_path.sh
-/usr/libexec/glusterfs/gfind_missing_files/gfind_missing_files.sh
-/usr/libexec/glusterfs/glusterfind/S57glusterfind-delete-post.py
-/usr/libexec/glusterfs/glusterfind/__init__.py
-/usr/libexec/glusterfs/glusterfind/__init__.pyc
-/usr/libexec/glusterfs/glusterfind/brickfind.py
-/usr/libexec/glusterfs/glusterfind/changelog.py
-/usr/libexec/glusterfs/glusterfind/changelogdata.py
-/usr/libexec/glusterfs/glusterfind/changelogdata.pyc
-/usr/libexec/glusterfs/glusterfind/conf.py
-/usr/libexec/glusterfs/glusterfind/conf.pyc
-/usr/libexec/glusterfs/glusterfind/libgfchangelog.py
-/usr/libexec/glusterfs/glusterfind/libgfchangelog.pyc
-/usr/libexec/glusterfs/glusterfind/main.py
-/usr/libexec/glusterfs/glusterfind/main.pyc
-/usr/libexec/glusterfs/glusterfind/nodeagent.py
-/usr/libexec/glusterfs/glusterfind/tool.conf
-/usr/libexec/glusterfs/glusterfind/utils.py
-/usr/libexec/glusterfs/glusterfind/utils.pyc
-/usr/libexec/glusterfs/gsyncd
-/usr/libexec/glusterfs/gverify.sh
-/usr/libexec/glusterfs/mount-shared-storage.sh
-/usr/libexec/glusterfs/peer_add_secret_pub
-/usr/libexec/glusterfs/peer_eventsapi.py
-/usr/libexec/glusterfs/peer_georep-sshkey.py
-/usr/libexec/glusterfs/peer_gsec_create
-/usr/libexec/glusterfs/peer_mountbroker
-/usr/libexec/glusterfs/peer_mountbroker.py
-/usr/libexec/glusterfs/python/syncdaemon/README.md
-/usr/libexec/glusterfs/python/syncdaemon/__init__.py
-/usr/libexec/glusterfs/python/syncdaemon/__init__.pyc
-/usr/libexec/glusterfs/python/syncdaemon/argsupgrade.py
-/usr/libexec/glusterfs/python/syncdaemon/argsupgrade.pyc
-/usr/libexec/glusterfs/python/syncdaemon/changelogagent.py
-/usr/libexec/glusterfs/python/syncdaemon/changelogagent.pyc
-/usr/libexec/glusterfs/python/syncdaemon/conf.py
-/usr/libexec/glusterfs/python/syncdaemon/conf.pyc
-/usr/libexec/glusterfs/python/syncdaemon/gsyncd.py
-/usr/libexec/glusterfs/python/syncdaemon/gsyncd.pyc
-/usr/libexec/glusterfs/python/syncdaemon/gsyncdconfig.py
-/usr/libexec/glusterfs/python/syncdaemon/gsyncdconfig.pyc
-/usr/libexec/glusterfs/python/syncdaemon/gsyncdstatus.py
-/usr/libexec/glusterfs/python/syncdaemon/gsyncdstatus.pyc
-/usr/libexec/glusterfs/python/syncdaemon/ipaddr.py
-/usr/libexec/glusterfs/python/syncdaemon/ipaddr.pyc
-/usr/libexec/glusterfs/python/syncdaemon/libcxattr.py
-/usr/libexec/glusterfs/python/syncdaemon/libcxattr.pyc
-/usr/libexec/glusterfs/python/syncdaemon/libgfchangelog.py
-/usr/libexec/glusterfs/python/syncdaemon/libgfchangelog.pyc
-/usr/libexec/glusterfs/python/syncdaemon/logutils.py
-/usr/libexec/glusterfs/python/syncdaemon/logutils.pyc
-/usr/libexec/glusterfs/python/syncdaemon/master.py
-/usr/libexec/glusterfs/python/syncdaemon/master.pyc
-/usr/libexec/glusterfs/python/syncdaemon/monitor.py
-/usr/libexec/glusterfs/python/syncdaemon/monitor.pyc
-/usr/libexec/glusterfs/python/syncdaemon/rconf.py
-/usr/libexec/glusterfs/python/syncdaemon/rconf.pyc
-/usr/libexec/glusterfs/python/syncdaemon/repce.py
-/usr/libexec/glusterfs/python/syncdaemon/repce.pyc
-/usr/libexec/glusterfs/python/syncdaemon/resource.py
-/usr/libexec/glusterfs/python/syncdaemon/resource.pyc
-/usr/libexec/glusterfs/python/syncdaemon/subcmds.py
-/usr/libexec/glusterfs/python/syncdaemon/subcmds.pyc
-/usr/libexec/glusterfs/python/syncdaemon/syncdutils.py
-/usr/libexec/glusterfs/python/syncdaemon/syncdutils.pyc
-/usr/libexec/glusterfs/set_geo_rep_pem_keys.sh
-
-%files config
-%defattr(-,root,root,-)
-/usr/lib/systemd/system/glusterd.service
-/usr/lib/systemd/system/glustereventsd.service
-/usr/lib/systemd/system/glusterfssharedstorage.service
 
 %files data
 %defattr(-,root,root,-)
@@ -537,17 +470,101 @@ cp contrib/macfuse/COPYING.txt %{buildroot}/usr/share/doc/glusterfs/contrib_macf
 /usr/lib64/libglusterfs.so.0
 /usr/lib64/libglusterfs.so.0.0.1
 
-%files license
+%files libexec
 %defattr(-,root,root,-)
-/usr/share/doc/glusterfs/COPYING-GPLV2
-/usr/share/doc/glusterfs/COPYING-LGPLV3
-/usr/share/doc/glusterfs/contrib_fuse-lib_COPYING.LIB
-/usr/share/doc/glusterfs/contrib_fuse-util_COPYING
-/usr/share/doc/glusterfs/contrib_ipaddr-py_COPYING
-/usr/share/doc/glusterfs/contrib_macfuse_COPYING.txt
+/usr/libexec/glusterfs/events/__init__.py
+/usr/libexec/glusterfs/events/__init__.pyc
+/usr/libexec/glusterfs/events/eventsapiconf.py
+/usr/libexec/glusterfs/events/eventsapiconf.pyc
+/usr/libexec/glusterfs/events/eventtypes.py
+/usr/libexec/glusterfs/events/eventtypes.pyc
+/usr/libexec/glusterfs/events/gf_event.py
+/usr/libexec/glusterfs/events/gf_event.pyc
+/usr/libexec/glusterfs/events/glustereventsd.py
+/usr/libexec/glusterfs/events/handlers.py
+/usr/libexec/glusterfs/events/handlers.pyc
+/usr/libexec/glusterfs/events/utils.py
+/usr/libexec/glusterfs/events/utils.pyc
+/usr/libexec/glusterfs/gfind_missing_files/gcrawler
+/usr/libexec/glusterfs/gfind_missing_files/gfid_to_path.py
+/usr/libexec/glusterfs/gfind_missing_files/gfid_to_path.sh
+/usr/libexec/glusterfs/gfind_missing_files/gfind_missing_files.sh
+/usr/libexec/glusterfs/glusterfind/S57glusterfind-delete-post.py
+/usr/libexec/glusterfs/glusterfind/__init__.py
+/usr/libexec/glusterfs/glusterfind/__init__.pyc
+/usr/libexec/glusterfs/glusterfind/brickfind.py
+/usr/libexec/glusterfs/glusterfind/changelog.py
+/usr/libexec/glusterfs/glusterfind/changelogdata.py
+/usr/libexec/glusterfs/glusterfind/changelogdata.pyc
+/usr/libexec/glusterfs/glusterfind/conf.py
+/usr/libexec/glusterfs/glusterfind/conf.pyc
+/usr/libexec/glusterfs/glusterfind/libgfchangelog.py
+/usr/libexec/glusterfs/glusterfind/libgfchangelog.pyc
+/usr/libexec/glusterfs/glusterfind/main.py
+/usr/libexec/glusterfs/glusterfind/main.pyc
+/usr/libexec/glusterfs/glusterfind/nodeagent.py
+/usr/libexec/glusterfs/glusterfind/tool.conf
+/usr/libexec/glusterfs/glusterfind/utils.py
+/usr/libexec/glusterfs/glusterfind/utils.pyc
+/usr/libexec/glusterfs/gsyncd
+/usr/libexec/glusterfs/gverify.sh
+/usr/libexec/glusterfs/mount-shared-storage.sh
+/usr/libexec/glusterfs/peer_add_secret_pub
+/usr/libexec/glusterfs/peer_eventsapi.py
+/usr/libexec/glusterfs/peer_georep-sshkey.py
+/usr/libexec/glusterfs/peer_gsec_create
+/usr/libexec/glusterfs/peer_mountbroker
+/usr/libexec/glusterfs/peer_mountbroker.py
+/usr/libexec/glusterfs/python/syncdaemon/README.md
+/usr/libexec/glusterfs/python/syncdaemon/__init__.py
+/usr/libexec/glusterfs/python/syncdaemon/__init__.pyc
+/usr/libexec/glusterfs/python/syncdaemon/argsupgrade.py
+/usr/libexec/glusterfs/python/syncdaemon/argsupgrade.pyc
+/usr/libexec/glusterfs/python/syncdaemon/changelogagent.py
+/usr/libexec/glusterfs/python/syncdaemon/changelogagent.pyc
+/usr/libexec/glusterfs/python/syncdaemon/conf.py
+/usr/libexec/glusterfs/python/syncdaemon/conf.pyc
+/usr/libexec/glusterfs/python/syncdaemon/gsyncd.py
+/usr/libexec/glusterfs/python/syncdaemon/gsyncd.pyc
+/usr/libexec/glusterfs/python/syncdaemon/gsyncdconfig.py
+/usr/libexec/glusterfs/python/syncdaemon/gsyncdconfig.pyc
+/usr/libexec/glusterfs/python/syncdaemon/gsyncdstatus.py
+/usr/libexec/glusterfs/python/syncdaemon/gsyncdstatus.pyc
+/usr/libexec/glusterfs/python/syncdaemon/ipaddr.py
+/usr/libexec/glusterfs/python/syncdaemon/ipaddr.pyc
+/usr/libexec/glusterfs/python/syncdaemon/libcxattr.py
+/usr/libexec/glusterfs/python/syncdaemon/libcxattr.pyc
+/usr/libexec/glusterfs/python/syncdaemon/libgfchangelog.py
+/usr/libexec/glusterfs/python/syncdaemon/libgfchangelog.pyc
+/usr/libexec/glusterfs/python/syncdaemon/logutils.py
+/usr/libexec/glusterfs/python/syncdaemon/logutils.pyc
+/usr/libexec/glusterfs/python/syncdaemon/master.py
+/usr/libexec/glusterfs/python/syncdaemon/master.pyc
+/usr/libexec/glusterfs/python/syncdaemon/monitor.py
+/usr/libexec/glusterfs/python/syncdaemon/monitor.pyc
+/usr/libexec/glusterfs/python/syncdaemon/rconf.py
+/usr/libexec/glusterfs/python/syncdaemon/rconf.pyc
+/usr/libexec/glusterfs/python/syncdaemon/repce.py
+/usr/libexec/glusterfs/python/syncdaemon/repce.pyc
+/usr/libexec/glusterfs/python/syncdaemon/resource.py
+/usr/libexec/glusterfs/python/syncdaemon/resource.pyc
+/usr/libexec/glusterfs/python/syncdaemon/subcmds.py
+/usr/libexec/glusterfs/python/syncdaemon/subcmds.pyc
+/usr/libexec/glusterfs/python/syncdaemon/syncdutils.py
+/usr/libexec/glusterfs/python/syncdaemon/syncdutils.pyc
+/usr/libexec/glusterfs/set_geo_rep_pem_keys.sh
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/glusterfs/COPYING-GPLV2
+/usr/share/package-licenses/glusterfs/COPYING-LGPLV3
+/usr/share/package-licenses/glusterfs/contrib_fuse-lib_COPYING.LIB
+/usr/share/package-licenses/glusterfs/contrib_fuse-util_COPYING
+/usr/share/package-licenses/glusterfs/contrib_ipaddr-py_COPYING
+/usr/share/package-licenses/glusterfs/contrib_macfuse_COPYING.txt
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man8/gluster-setgfid2path.8
 /usr/share/man/man8/gluster.8
 /usr/share/man/man8/glusterd.8
@@ -557,3 +574,9 @@ cp contrib/macfuse/COPYING.txt %{buildroot}/usr/share/doc/glusterfs/contrib_macf
 
 %files python
 %defattr(-,root,root,-)
+
+%files services
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/glusterd.service
+/usr/lib/systemd/system/glustereventsd.service
+/usr/lib/systemd/system/glusterfssharedstorage.service
