@@ -13,6 +13,7 @@ libgfapi.so.0:GFAPI_3.7.16
 libgfapi.so.0:GFAPI_3.7.17
 libgfapi.so.0:GFAPI_3.7.4
 libgfapi.so.0:GFAPI_4.0.0
+libgfapi.so.0:GFAPI_4.1.6
 libgfapi.so.0:GFAPI_PRIVATE_3.12.0
 libgfapi.so.0:GFAPI_PRIVATE_3.4.0
 libgfapi.so.0:GFAPI_PRIVATE_3.7.0
@@ -160,6 +161,7 @@ libgfapi.so.0:glfs_upcall_inode_get_pobject
 libgfapi.so.0:glfs_upcall_inode_get_pstat
 libgfapi.so.0:glfs_upcall_inode_get_stat
 libgfapi.so.0:glfs_upcall_lease_get_lease_type
+libgfapi.so.0:glfs_upcall_lease_get_object
 libgfapi.so.0:glfs_upcall_register
 libgfapi.so.0:glfs_upcall_unregister
 libgfapi.so.0:glfs_utimens
