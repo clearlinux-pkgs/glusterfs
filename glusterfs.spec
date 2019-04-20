@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 4.1.8
-Release  : 21
+Release  : 22
 URL      : https://github.com/gluster/glusterfs/archive/v4.1.8.tar.gz
 Source0  : https://github.com/gluster/glusterfs/archive/v4.1.8.tar.gz
 Summary  : GlusterFS Database Library
