@@ -1,11 +1,11 @@
+Configure miss: /etc/centos-release
 Configure miss: rl_do_undo in -lreadline
 Configure miss: gettext in -lintl
 Configure miss: sys/extattr.h usability
 Configure miss: sys/extattr.h presence
 Configure miss: sys/extattr.h
-Configure miss: lvm_init,lvm_lv_from_name in -llvm2app
-Configure miss: CRYPTO_THREADID_set_callback in -lcrypto
 Configure miss: struct stat.st_atimespec.tv_nsec
+Configure miss: paccept
 Configure miss: /etc/debian_version
 Configure miss: /etc/SuSE-release
 Configure miss: /etc/redhat-release

@@ -1,4 +1,5 @@
-4.1.8
+6.5
+curl-dev
 intltool-dev
 libxml2-dev
 rdma-core-dev
