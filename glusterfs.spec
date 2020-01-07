@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 6.5
-Release  : 24
+Release  : 25
 URL      : https://github.com/gluster/glusterfs/archive/v6.5.tar.gz
 Source0  : https://github.com/gluster/glusterfs/archive/v6.5.tar.gz
 Summary  : GlusterFS Database Library
