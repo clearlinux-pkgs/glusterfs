@@ -15,6 +15,8 @@ libgfapi.so.0:GFAPI_3.7.4
 libgfapi.so.0:GFAPI_4.0.0
 libgfapi.so.0:GFAPI_4.1.6
 libgfapi.so.0:GFAPI_6.0
+libgfapi.so.0:GFAPI_6.6
+libgfapi.so.0:GFAPI_7.0
 libgfapi.so.0:GFAPI_PRIVATE_3.12.0
 libgfapi.so.0:GFAPI_PRIVATE_3.4.0
 libgfapi.so.0:GFAPI_PRIVATE_3.7.0
@@ -66,6 +68,7 @@ libgfapi.so.0:glfs_h_anonymous_read
 libgfapi.so.0:glfs_h_anonymous_write
 libgfapi.so.0:glfs_h_close
 libgfapi.so.0:glfs_h_creat
+libgfapi.so.0:glfs_h_creat_open
 libgfapi.so.0:glfs_h_create_from_handle
 libgfapi.so.0:glfs_h_extract_handle
 libgfapi.so.0:glfs_h_getattrs
@@ -138,6 +141,7 @@ libgfapi.so.0:glfs_resolve_at
 libgfapi.so.0:glfs_rmdir
 libgfapi.so.0:glfs_seekdir
 libgfapi.so.0:glfs_set_logging
+libgfapi.so.0:glfs_set_statedump_path
 libgfapi.so.0:glfs_set_volfile
 libgfapi.so.0:glfs_set_volfile_server
 libgfapi.so.0:glfs_set_xlator_option
@@ -216,7 +220,6 @@ libgfchangelog.so.0:gf_changelog_next_change
 libgfchangelog.so.0:gf_changelog_process
 libgfchangelog.so.0:gf_changelog_publish
 libgfchangelog.so.0:gf_changelog_queue_journal
-libgfchangelog.so.0:gf_changelog_read_path
 libgfchangelog.so.0:gf_changelog_reborp_handle_event
 libgfchangelog.so.0:gf_changelog_reborp_init_rpc_listner
 libgfchangelog.so.0:gf_changelog_reborp_rpcsvc_notify
@@ -257,7 +260,6 @@ libgfrpc.so.0:is_rpc_clnt_disconnected
 libgfrpc.so.0:rpc_clnt_cleanup_and_start
 libgfrpc.so.0:rpc_clnt_connection_cleanup
 libgfrpc.so.0:rpc_clnt_disable
-libgfrpc.so.0:rpc_clnt_disconnect
 libgfrpc.so.0:rpc_clnt_mgmt_pmap_signout
 libgfrpc.so.0:rpc_clnt_new
 libgfrpc.so.0:rpc_clnt_reconfig
@@ -323,8 +325,6 @@ libgfxdr.so.0:xdr_changelog_event_req
 libgfxdr.so.0:xdr_changelog_event_rsp
 libgfxdr.so.0:xdr_changelog_probe_req
 libgfxdr.so.0:xdr_changelog_probe_rsp
-libgfxdr.so.0:xdr_compound_req_v2
-libgfxdr.so.0:xdr_compound_rsp_v2
 libgfxdr.so.0:xdr_dirpath
 libgfxdr.so.0:xdr_free_exports_list
 libgfxdr.so.0:xdr_free_mountlist
@@ -388,8 +388,6 @@ libgfxdr.so.0:xdr_gf_setvolume_rsp
 libgfxdr.so.0:xdr_gf_statedump
 libgfxdr.so.0:xdr_gfs3_access_req
 libgfxdr.so.0:xdr_gfs3_cbk_cache_invalidation_req
-libgfxdr.so.0:xdr_gfs3_compound_req
-libgfxdr.so.0:xdr_gfs3_compound_rsp
 libgfxdr.so.0:xdr_gfs3_create_req
 libgfxdr.so.0:xdr_gfs3_create_rsp
 libgfxdr.so.0:xdr_gfs3_discard_req
@@ -487,8 +485,6 @@ libgfxdr.so.0:xdr_gfx_common_3iatt_rsp
 libgfxdr.so.0:xdr_gfx_common_dict_rsp
 libgfxdr.so.0:xdr_gfx_common_iatt_rsp
 libgfxdr.so.0:xdr_gfx_common_rsp
-libgfxdr.so.0:xdr_gfx_compound_req
-libgfxdr.so.0:xdr_gfx_compound_rsp
 libgfxdr.so.0:xdr_gfx_copy_file_range_req
 libgfxdr.so.0:xdr_gfx_create_req
 libgfxdr.so.0:xdr_gfx_create_rsp
@@ -656,7 +652,6 @@ libgfxdr.so.0:xdr_to_symlink3args
 libgfxdr.so.0:xdr_to_write3args
 libgfxdr.so.0:xdr_vector_round_up
 libglusterfs.so.0:SuperFastHash
-libglusterfs.so.0:__dentry_grep
 libglusterfs.so.0:__fd_ctx_del
 libglusterfs.so.0:__fd_ctx_get
 libglusterfs.so.0:__fd_ctx_set
@@ -821,10 +816,6 @@ libglusterfs.so.0:cluster_uninodelk
 libglusterfs.so.0:cluster_unlink
 libglusterfs.so.0:cluster_xattrop
 libglusterfs.so.0:cluster_xattrop_cbk
-libglusterfs.so.0:compound_args_cbk_alloc
-libglusterfs.so.0:compound_args_cbk_cleanup
-libglusterfs.so.0:compound_args_cleanup
-libglusterfs.so.0:compound_fop_alloc
 libglusterfs.so.0:copy_opts_to_child
 libglusterfs.so.0:create_frame
 libglusterfs.so.0:data_copy
@@ -1100,6 +1091,7 @@ libglusterfs.so.0:dict_reset
 libglusterfs.so.0:dict_serialize
 libglusterfs.so.0:dict_serialize_value_with_delim
 libglusterfs.so.0:dict_serialized_length
+libglusterfs.so.0:dict_serialized_length_lk
 libglusterfs.so.0:dict_set
 libglusterfs.so.0:dict_set_bin
 libglusterfs.so.0:dict_set_double
@@ -1132,16 +1124,6 @@ libglusterfs.so.0:eh_dump
 libglusterfs.so.0:eh_new
 libglusterfs.so.0:eh_save_history
 libglusterfs.so.0:entry_copy
-libglusterfs.so.0:event_dispatch
-libglusterfs.so.0:event_dispatch_destroy
-libglusterfs.so.0:event_handled
-libglusterfs.so.0:event_pool_destroy
-libglusterfs.so.0:event_pool_new
-libglusterfs.so.0:event_reconfigure_threads
-libglusterfs.so.0:event_register
-libglusterfs.so.0:event_select_on
-libglusterfs.so.0:event_unregister
-libglusterfs.so.0:event_unregister_close
 libglusterfs.so.0:fd_anonymous
 libglusterfs.so.0:fd_anonymous_with_flags
 libglusterfs.so.0:fd_bind
@@ -1243,6 +1225,9 @@ libglusterfs.so.0:get_xlator_by_name
 libglusterfs.so.0:get_xlator_by_type
 libglusterfs.so.0:gf_array_insertionsort
 libglusterfs.so.0:gf_asprintf
+libglusterfs.so.0:gf_async_adjust_threads
+libglusterfs.so.0:gf_async_fini
+libglusterfs.so.0:gf_async_init
 libglusterfs.so.0:gf_backtrace_save
 libglusterfs.so.0:gf_bits_count
 libglusterfs.so.0:gf_bits_index
@@ -1273,6 +1258,16 @@ libglusterfs.so.0:gf_dm_hashfn
 libglusterfs.so.0:gf_dnscache_init
 libglusterfs.so.0:gf_errno_to_error
 libglusterfs.so.0:gf_error_to_errno
+libglusterfs.so.0:gf_event_dispatch
+libglusterfs.so.0:gf_event_dispatch_destroy
+libglusterfs.so.0:gf_event_handled
+libglusterfs.so.0:gf_event_pool_destroy
+libglusterfs.so.0:gf_event_pool_new
+libglusterfs.so.0:gf_event_reconfigure_threads
+libglusterfs.so.0:gf_event_register
+libglusterfs.so.0:gf_event_select_on
+libglusterfs.so.0:gf_event_unregister
+libglusterfs.so.0:gf_event_unregister_close
 libglusterfs.so.0:gf_existing_leaseid
 libglusterfs.so.0:gf_fd_fdptr_get
 libglusterfs.so.0:gf_fd_fdtable_alloc
@@ -1369,6 +1364,7 @@ libglusterfs.so.0:gf_store_mkstemp
 libglusterfs.so.0:gf_store_read_and_tokenize
 libglusterfs.so.0:gf_store_rename_tmppath
 libglusterfs.so.0:gf_store_retrieve_value
+libglusterfs.so.0:gf_store_save_items
 libglusterfs.so.0:gf_store_save_value
 libglusterfs.so.0:gf_store_unlink_tmppath
 libglusterfs.so.0:gf_store_unlock
@@ -1430,6 +1426,7 @@ libglusterfs.so.0:glusterfs_graph_construct
 libglusterfs.so.0:glusterfs_graph_deactivate
 libglusterfs.so.0:glusterfs_graph_destroy
 libglusterfs.so.0:glusterfs_graph_destroy_residual
+libglusterfs.so.0:glusterfs_graph_fini
 libglusterfs.so.0:glusterfs_graph_prepare
 libglusterfs.so.0:glusterfs_graph_print_file
 libglusterfs.so.0:glusterfs_graph_set_first
@@ -1437,6 +1434,9 @@ libglusterfs.so.0:glusterfs_is_local_pathinfo
 libglusterfs.so.0:glusterfs_leaf_position
 libglusterfs.so.0:glusterfs_leaseid_buf_get
 libglusterfs.so.0:glusterfs_leaseid_exist
+libglusterfs.so.0:glusterfs_mux_volfile_reconfigure
+libglusterfs.so.0:glusterfs_process_svc_attach_volfp
+libglusterfs.so.0:glusterfs_process_svc_detach
 libglusterfs.so.0:glusterfs_reachable_leaves
 libglusterfs.so.0:glusterfs_read_secure_access_file
 libglusterfs.so.0:glusterfs_this_set
@@ -1533,6 +1533,7 @@ libglusterfs.so.0:mem_pool_new_fn
 libglusterfs.so.0:mem_pools_fini
 libglusterfs.so.0:mem_pools_init
 libglusterfs.so.0:mem_put
+libglusterfs.so.0:mgmt_is_multiplexed_daemon
 libglusterfs.so.0:mkdir_p
 libglusterfs.so.0:next_token
 libglusterfs.so.0:nwstrtail
@@ -1730,6 +1731,7 @@ libglusterfs.so.0:tbf_throttle
 libglusterfs.so.0:timespec_adjust_delta
 libglusterfs.so.0:timespec_cmp
 libglusterfs.so.0:timespec_now
+libglusterfs.so.0:timespec_now_realtime
 libglusterfs.so.0:timespec_sub
 libglusterfs.so.0:token_iter_init
 libglusterfs.so.0:trap
@@ -1749,6 +1751,7 @@ libglusterfs.so.0:xlator_destroy
 libglusterfs.so.0:xlator_foreach
 libglusterfs.so.0:xlator_foreach_depth_first
 libglusterfs.so.0:xlator_init
+libglusterfs.so.0:xlator_is_cleanup_starting
 libglusterfs.so.0:xlator_mem_acct_init
 libglusterfs.so.0:xlator_mem_acct_unref
 libglusterfs.so.0:xlator_mem_cleanup
@@ -1758,6 +1761,7 @@ libglusterfs.so.0:xlator_option_info_list
 libglusterfs.so.0:xlator_option_init_bool
 libglusterfs.so.0:xlator_option_init_double
 libglusterfs.so.0:xlator_option_init_int32
+libglusterfs.so.0:xlator_option_init_int64
 libglusterfs.so.0:xlator_option_init_path
 libglusterfs.so.0:xlator_option_init_percent
 libglusterfs.so.0:xlator_option_init_percent_or_size
@@ -1770,6 +1774,7 @@ libglusterfs.so.0:xlator_option_init_uint64
 libglusterfs.so.0:xlator_option_init_xlator
 libglusterfs.so.0:xlator_option_reconf_bool
 libglusterfs.so.0:xlator_option_reconf_int32
+libglusterfs.so.0:xlator_option_reconf_int64
 libglusterfs.so.0:xlator_option_reconf_path
 libglusterfs.so.0:xlator_option_reconf_percent
 libglusterfs.so.0:xlator_option_reconf_percent_or_size
