@@ -4,10 +4,10 @@
 #
 Name     : glusterfs
 Version  : 7.2
-Release  : 26
+Release  : 27
 URL      : https://github.com/gluster/glusterfs/archive/v7.2.tar.gz
 Source0  : https://github.com/gluster/glusterfs/archive/v7.2.tar.gz
-Summary  : GlusterFS Database Library
+Summary  : a cluster file-system capable of scaling to several peta-bytes.
 Group    : Development/Tools
 License  : AML GPL-2.0 LGPL-2.0 LGPL-3.0
 Requires: glusterfs-bin = %{version}-%{release}
@@ -44,8 +44,19 @@ BuildRequires : rpcbind
 BuildRequires : xz-dev
 
 %description
-PROBLEM
-The testing methodology of Gluster is extremely slow. It takes a very long time (6+ hrs) to run the basic tests on a single machine. It takes about 20+ hours to run code analysis version of tests like valgrind, asan, tsan etc.
+1. Download GlusterFS.2.0.0rc1.i86pc.Solaris.2.11.pkg.tgz to /tmp
+2. tar xvf GlusterFS.2.0.0rc1.i86pc.Solaris.2.11.pkg.tgz in /tmp
+3. pkgadd -d /tmp GlusterFS
+4.
+$ pkginfo GlusterFS
+system      GlusterFS GlusterFS 2.0.0rc1
+$ which glusterfs
+/usr/sfw/sbin/glusterfs
+$ glusterfs --version
+glusterfs 2.0.0rc1 built on Jan 16 2009 03:36:59
+Repository revision: glusterfs--mainline--3.0--patch-844
+GlusterFS comes with ABSOLUTELY NO WARRANTY.
+You may redistribute copies of GlusterFS under the terms of the GNU General Public License.
 
 %package bin
 Summary: bin components for the glusterfs package.
@@ -74,6 +85,7 @@ Requires: glusterfs-lib = %{version}-%{release}
 Requires: glusterfs-bin = %{version}-%{release}
 Requires: glusterfs-data = %{version}-%{release}
 Provides: glusterfs-devel = %{version}-%{release}
+Requires: glusterfs = %{version}-%{release}
 Requires: glusterfs = %{version}-%{release}
 
 %description dev
@@ -160,12 +172,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1581532775
+export SOURCE_DATE_EPOCH=1582930860
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
+export FFLAGS="$CFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -fcf-protection=full -fno-lto -fstack-protector-strong "
 %autogen --disable-static --localstatedir=/usr/share/glusterfs PYTHON=/usr/bin/python3
 make  %{?_smp_mflags}
 
@@ -177,7 +190,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1581532775
+export SOURCE_DATE_EPOCH=1582930860
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glusterfs
 cp %{_builddir}/glusterfs-7.2/COPYING-GPLV2 %{buildroot}/usr/share/package-licenses/glusterfs/4cc77b90af91e615a64ae04893fdffa7939db84c
@@ -369,73 +382,73 @@ cp %{_builddir}/glusterfs-7.2/contrib/macfuse/COPYING.txt %{buildroot}/usr/share
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/glusterfs/2020.02.12/auth/addr.so
-/usr/lib64/glusterfs/2020.02.12/auth/login.so
-/usr/lib64/glusterfs/2020.02.12/cloudsync-plugins/cloudsynccvlt.so
-/usr/lib64/glusterfs/2020.02.12/cloudsync-plugins/cloudsyncs3.so
-/usr/lib64/glusterfs/2020.02.12/rpc-transport/rdma.so
-/usr/lib64/glusterfs/2020.02.12/rpc-transport/socket.so
-/usr/lib64/glusterfs/2020.02.12/xlator/cluster/afr.so
-/usr/lib64/glusterfs/2020.02.12/xlator/cluster/dht.so
-/usr/lib64/glusterfs/2020.02.12/xlator/cluster/disperse.so
-/usr/lib64/glusterfs/2020.02.12/xlator/cluster/distribute.so
-/usr/lib64/glusterfs/2020.02.12/xlator/cluster/ec.so
-/usr/lib64/glusterfs/2020.02.12/xlator/cluster/nufa.so
-/usr/lib64/glusterfs/2020.02.12/xlator/cluster/replicate.so
-/usr/lib64/glusterfs/2020.02.12/xlator/cluster/switch.so
-/usr/lib64/glusterfs/2020.02.12/xlator/debug/delay-gen.so
-/usr/lib64/glusterfs/2020.02.12/xlator/debug/error-gen.so
-/usr/lib64/glusterfs/2020.02.12/xlator/debug/io-stats.so
-/usr/lib64/glusterfs/2020.02.12/xlator/debug/sink.so
-/usr/lib64/glusterfs/2020.02.12/xlator/debug/trace.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/access-control.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/arbiter.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/barrier.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/bit-rot.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/bitrot-stub.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/cdc.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/changelog.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/cloudsync.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/gfid-access.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/index.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/leases.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/locks.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/marker.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/namespace.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/posix-locks.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/quiesce.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/quota.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/quotad.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/read-only.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/sdfs.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/selinux.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/shard.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/snapview-client.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/snapview-server.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/thin-arbiter.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/trash.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/upcall.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/utime.so
-/usr/lib64/glusterfs/2020.02.12/xlator/features/worm.so
-/usr/lib64/glusterfs/2020.02.12/xlator/meta.so
-/usr/lib64/glusterfs/2020.02.12/xlator/mgmt/glusterd.so
-/usr/lib64/glusterfs/2020.02.12/xlator/mount/api.so
-/usr/lib64/glusterfs/2020.02.12/xlator/mount/fuse.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/io-cache.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/io-threads.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/md-cache.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/nl-cache.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/open-behind.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/quick-read.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/read-ahead.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/readdir-ahead.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/stat-prefetch.so
-/usr/lib64/glusterfs/2020.02.12/xlator/performance/write-behind.so
-/usr/lib64/glusterfs/2020.02.12/xlator/playground/template.so
-/usr/lib64/glusterfs/2020.02.12/xlator/protocol/client.so
-/usr/lib64/glusterfs/2020.02.12/xlator/protocol/server.so
-/usr/lib64/glusterfs/2020.02.12/xlator/storage/posix.so
-/usr/lib64/glusterfs/2020.02.12/xlator/system/posix-acl.so
+/usr/lib64/glusterfs/2020.02.28/auth/addr.so
+/usr/lib64/glusterfs/2020.02.28/auth/login.so
+/usr/lib64/glusterfs/2020.02.28/cloudsync-plugins/cloudsynccvlt.so
+/usr/lib64/glusterfs/2020.02.28/cloudsync-plugins/cloudsyncs3.so
+/usr/lib64/glusterfs/2020.02.28/rpc-transport/rdma.so
+/usr/lib64/glusterfs/2020.02.28/rpc-transport/socket.so
+/usr/lib64/glusterfs/2020.02.28/xlator/cluster/afr.so
+/usr/lib64/glusterfs/2020.02.28/xlator/cluster/dht.so
+/usr/lib64/glusterfs/2020.02.28/xlator/cluster/disperse.so
+/usr/lib64/glusterfs/2020.02.28/xlator/cluster/distribute.so
+/usr/lib64/glusterfs/2020.02.28/xlator/cluster/ec.so
+/usr/lib64/glusterfs/2020.02.28/xlator/cluster/nufa.so
+/usr/lib64/glusterfs/2020.02.28/xlator/cluster/replicate.so
+/usr/lib64/glusterfs/2020.02.28/xlator/cluster/switch.so
+/usr/lib64/glusterfs/2020.02.28/xlator/debug/delay-gen.so
+/usr/lib64/glusterfs/2020.02.28/xlator/debug/error-gen.so
+/usr/lib64/glusterfs/2020.02.28/xlator/debug/io-stats.so
+/usr/lib64/glusterfs/2020.02.28/xlator/debug/sink.so
+/usr/lib64/glusterfs/2020.02.28/xlator/debug/trace.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/access-control.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/arbiter.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/barrier.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/bit-rot.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/bitrot-stub.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/cdc.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/changelog.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/cloudsync.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/gfid-access.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/index.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/leases.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/locks.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/marker.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/namespace.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/posix-locks.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/quiesce.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/quota.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/quotad.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/read-only.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/sdfs.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/selinux.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/shard.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/snapview-client.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/snapview-server.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/thin-arbiter.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/trash.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/upcall.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/utime.so
+/usr/lib64/glusterfs/2020.02.28/xlator/features/worm.so
+/usr/lib64/glusterfs/2020.02.28/xlator/meta.so
+/usr/lib64/glusterfs/2020.02.28/xlator/mgmt/glusterd.so
+/usr/lib64/glusterfs/2020.02.28/xlator/mount/api.so
+/usr/lib64/glusterfs/2020.02.28/xlator/mount/fuse.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/io-cache.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/io-threads.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/md-cache.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/nl-cache.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/open-behind.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/quick-read.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/read-ahead.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/readdir-ahead.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/stat-prefetch.so
+/usr/lib64/glusterfs/2020.02.28/xlator/performance/write-behind.so
+/usr/lib64/glusterfs/2020.02.28/xlator/playground/template.so
+/usr/lib64/glusterfs/2020.02.28/xlator/protocol/client.so
+/usr/lib64/glusterfs/2020.02.28/xlator/protocol/server.so
+/usr/lib64/glusterfs/2020.02.28/xlator/storage/posix.so
+/usr/lib64/glusterfs/2020.02.28/xlator/system/posix-acl.so
 /usr/lib64/libgfapi.so.0
 /usr/lib64/libgfapi.so.0.0.0
 /usr/lib64/libgfchangelog.so.0
