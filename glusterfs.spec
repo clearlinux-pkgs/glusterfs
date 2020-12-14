@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 7.5
-Release  : 31
+Release  : 32
 URL      : https://download.gluster.org/pub/gluster/glusterfs/7/7.5/glusterfs-7.5.tar.gz
 Source0  : https://download.gluster.org/pub/gluster/glusterfs/7/7.5/glusterfs-7.5.tar.gz
 Summary  : Distributed File System
