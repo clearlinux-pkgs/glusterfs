@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 7.5
-Release  : 35
+Release  : 36
 URL      : https://download.gluster.org/pub/gluster/glusterfs/7/7.5/glusterfs-7.5.tar.gz
 Source0  : https://download.gluster.org/pub/gluster/glusterfs/7/7.5/glusterfs-7.5.tar.gz
 Summary  : Distributed File System
@@ -169,10 +169,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
 export SOURCE_DATE_EPOCH=1587872455
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
 %reconfigure --disable-static --localstatedir=/usr/share/glusterfs PYTHON=/usr/bin/python3
 make  %{?_smp_mflags}
 
