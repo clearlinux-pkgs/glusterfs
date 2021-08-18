@@ -1,15 +1,12 @@
-Configure miss: /etc/centos-release
-Configure miss: rl_do_undo in -lreadline
-Configure miss: gettext in -lintl
-Configure miss: sys/extattr.h usability
-Configure miss: sys/extattr.h presence
-Configure miss: sys/extattr.h
-Configure miss: struct stat.st_atimespec.tv_nsec
-Configure miss: paccept
-Configure miss: /etc/debian_version
 Configure miss: /etc/SuSE-release
+Configure miss: /etc/centos-release
+Configure miss: /etc/debian_version
 Configure miss: /etc/redhat-release
+Configure miss: gcc options needed to detect all undeclared functions
+Configure miss: gettext in -lintl
 Configure miss: if compiling with clang
-Configure miss: readline in -lreadline -lcurses
+Configure miss: library containing yywrap
+Configure miss: paccept
 Configure miss: readline in -lreadline -ltermcap
-Configure miss: readline in -lreadline -lncurses
+Configure miss: struct stat.st_atimespec.tv_nsec
+Configure miss: sys/extattr.h

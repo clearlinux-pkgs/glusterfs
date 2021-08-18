@@ -1127,6 +1127,7 @@ libglusterfs.so.0:entry_copy
 libglusterfs.so.0:fd_anonymous
 libglusterfs.so.0:fd_anonymous_with_flags
 libglusterfs.so.0:fd_bind
+libglusterfs.so.0:fd_close
 libglusterfs.so.0:fd_create
 libglusterfs.so.0:fd_create_uint64
 libglusterfs.so.0:fd_ctx_del
@@ -1255,6 +1256,7 @@ libglusterfs.so.0:gf_dirent_for_name
 libglusterfs.so.0:gf_dirent_free
 libglusterfs.so.0:gf_dirent_orig_offset
 libglusterfs.so.0:gf_dm_hashfn
+libglusterfs.so.0:gf_dnscache_deinit
 libglusterfs.so.0:gf_dnscache_init
 libglusterfs.so.0:gf_errno_to_error
 libglusterfs.so.0:gf_error_to_errno
