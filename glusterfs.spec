@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 7.9
-Release  : 45
+Release  : 46
 URL      : https://download.gluster.org/pub/gluster/glusterfs/7/7.9/glusterfs-7.9.tar.gz
 Source0  : https://download.gluster.org/pub/gluster/glusterfs/7/7.9/glusterfs-7.9.tar.gz
 Summary  : Distributed File System
