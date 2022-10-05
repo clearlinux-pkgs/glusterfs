@@ -4,7 +4,7 @@
 #
 Name     : glusterfs
 Version  : 7.9
-Release  : 46
+Release  : 47
 URL      : https://download.gluster.org/pub/gluster/glusterfs/7/7.9/glusterfs-7.9.tar.gz
 Source0  : https://download.gluster.org/pub/gluster/glusterfs/7/7.9/glusterfs-7.9.tar.gz
 Summary  : Distributed File System
@@ -38,7 +38,6 @@ BuildRequires : pkgconfig(zlib)
 BuildRequires : python3-dev
 BuildRequires : rdma-core-dev
 BuildRequires : readline-dev
-BuildRequires : rpcbind
 BuildRequires : xz-dev
 
 %description
@@ -167,12 +166,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1635731205
+export SOURCE_DATE_EPOCH=1664941180
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %reconfigure --disable-static --localstatedir=/usr/share/glusterfs PYTHON=/usr/bin/python3
 make  %{?_smp_mflags}
 
@@ -184,12 +183,12 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1635731205
+export SOURCE_DATE_EPOCH=1664941180
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/glusterfs
-cp %{_builddir}/glusterfs-7.9/COPYING-GPLV2 %{buildroot}/usr/share/package-licenses/glusterfs/4cc77b90af91e615a64ae04893fdffa7939db84c
-cp %{_builddir}/glusterfs-7.9/COPYING-LGPLV3 %{buildroot}/usr/share/package-licenses/glusterfs/f45ee1c765646813b442ca58de72e20a64a7ddba
-cp %{_builddir}/glusterfs-7.9/contrib/fuse-util/COPYING %{buildroot}/usr/share/package-licenses/glusterfs/dfac199a7539a404407098a2541b9482279f690d
+cp %{_builddir}/glusterfs-%{version}/COPYING-GPLV2 %{buildroot}/usr/share/package-licenses/glusterfs/4cc77b90af91e615a64ae04893fdffa7939db84c || :
+cp %{_builddir}/glusterfs-%{version}/COPYING-LGPLV3 %{buildroot}/usr/share/package-licenses/glusterfs/f45ee1c765646813b442ca58de72e20a64a7ddba || :
+cp %{_builddir}/glusterfs-%{version}/contrib/fuse-util/COPYING %{buildroot}/usr/share/package-licenses/glusterfs/dfac199a7539a404407098a2541b9482279f690d || :
 %make_install
 
 %files

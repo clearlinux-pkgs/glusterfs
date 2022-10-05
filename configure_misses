@@ -10,3 +10,4 @@ Configure miss: paccept
 Configure miss: readline in -lreadline -ltermcap
 Configure miss: struct stat.st_atimespec.tv_nsec
 Configure miss: sys/extattr.h
+Configure miss: x86_64-generic-linux-gnu-file
