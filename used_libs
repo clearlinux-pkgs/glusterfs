@@ -6,15 +6,11 @@ libcrypto.so.3
 libcurl.so.4
 libgcc_s.so.1
 libibverbs.so.1
-libm.so.6
-libncursesw.so.6
 librdmacm.so.1
 libreadline.so.8
 libssl.so.3
 libtirpc.so.3
 liburcu-bp.so.8
-liburcu-cds.so.8
-liburcu-common.so.8
 libuuid.so.1
 libxml2.so.2
 libz.so.1
